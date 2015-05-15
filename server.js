@@ -10,6 +10,8 @@ var DeviceOperation     = require('./app/models/DeviceOperation');
 var operation = {deviceId:"", operation:""};
 var operations = [];
 
+var maxOperationsToReturn = 100;
+
 function start_express_routing() {
 
 	app.use(bodyParser.urlencoded({ extended: true }));
@@ -72,6 +74,8 @@ function manageGetDeviceOperationsOfDeviceIdWithRouter(router) {
     .get(function(req, res) {
 
     	var deviceOperationsForDeviceId = operations.filter(deviceOperationDeviceIdFilter(req.params.device_id));
+
+        deviceOperationsForDeviceId = deviceOperationsForDeviceId.slice(-maxOperationsToReturn);
 
     	res.json(deviceOperationsForDeviceId);
 
